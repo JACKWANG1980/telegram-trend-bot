@@ -16,12 +16,14 @@ def home():
     return "✅ Telegram Bot Server is Running"
 
 
+from flask import send_file
+
 @app.route('/trend.json')
 def get_trend():
-    if os.path.exists(TREND_FILE):
-        with open(TREND_FILE, "r") as f:
-            return f.read(), 200, {'Content-Type': 'application/json'}
-    return jsonify({"trend": "NoTrend"}), 200
+    if os.path.exists("trend.json"):
+        return send_file("trend.json", mimetype="application/json")
+    else:
+        return jsonify({"trend": "NoTrend"}), 200
 
 
 # Webhook route must exactly match what Telegram will POST to
